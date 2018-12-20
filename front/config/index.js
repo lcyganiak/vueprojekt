@@ -15,6 +15,13 @@ module.exports = {
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    // eslint-disable-next-line no-dupe-keys
+    proxyTable: {
+      '/api': {
+        target: 'http://localhost:8081',
+        changeOrigin: true
+      }
+    },
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
