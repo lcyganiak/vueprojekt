@@ -12,14 +12,10 @@ export default {
   data() {
     return {
       bok: [1, 2, 3],
-      books: {},
-      // eslint-disable-next-line
+      books: [],
       title: "",
-      // eslint-disable-next-line
       id: "",
-      // eslint-disable-next-line
       author: "",
-      // eslint-disable-next-line
       description: ""
     };
   },
@@ -30,7 +26,6 @@ export default {
     book() {
       axios.get("api/books").then(result => {
         this.books = result.data;
-        console.log(books);
       });
     }
   },
