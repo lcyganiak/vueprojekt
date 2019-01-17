@@ -1,6 +1,4 @@
 const express = require('express');
-// import express from 'express';
-// const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const books = require('./routers/routers');
 const cors = require('cors');

@@ -1,7 +1,5 @@
 const express = require('express');
 const Book = require('../model/author');
-const BookDetal = require('../model/book');
-
 var router = express.Router();
 
 // GET All Books
@@ -67,4 +65,12 @@ router.put('/book/:id', (req, res) => {
       .error(err => res.send('Error : ' + err));
   }
 });
+
+router.get('/books/:id', (req, res) => {
+  Book.findByPk(req.params.id).then(bookone => {
+
+    res.send(bookone)
+  })
+
+})
 module.exports = router;

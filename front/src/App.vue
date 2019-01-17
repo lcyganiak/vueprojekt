@@ -1,11 +1,15 @@
 
 <template>
-  <div id="app">
-    <app-menu></app-menu>
-    <div class="container">
-      <router-view></router-view>
-    </div>
-  </div>
+  <v-app>
+    <v-container>
+      <div id="app">
+        <app-menu></app-menu>
+        <div class="container">
+          <router-view></router-view>
+        </div>
+      </div>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -21,6 +25,5 @@ export default {
 <style>
 body {
   background-color: whitesmoke;
-  padding: 30px;
 }
 </style>

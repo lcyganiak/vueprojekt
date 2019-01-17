@@ -10,25 +10,18 @@ import Book from "./Book.vue";
 
 export default {
   data() {
-    return {
-      bok: [1, 2, 3],
-      books: [],
-      title: "",
-      id: "",
-      author: "",
-      description: ""
-    };
+    return {};
   },
-  mounted() {
-    this.book();
-  },
-  methods: {
-    book() {
-      axios.get("api/books").then(result => {
-        this.books = result.data;
-      });
+  computed: {
+    books() {
+      return this.$store.state.books;
     }
   },
+  mounted() {
+    this.$store.dispatch("books");
+  },
+
+  methods: {},
   components: {
     appBook: Book
   }

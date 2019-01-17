@@ -17,5 +17,10 @@ module.exports = db.sequelize.define('tblvues', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
-  }
+  },
+  typeBook: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
 });
