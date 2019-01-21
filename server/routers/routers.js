@@ -56,7 +56,7 @@ router.put('/book/:id', (req, res) => {
     });
   } else {
     Book.update(
-      { title: req.body.title, description: req.body.description },
+      { author: req.body.author, title: req.body.title, description: req.body.description },
       { where: { id: req.params.id } }
     )
       .then(() => {

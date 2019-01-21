@@ -1,8 +1,14 @@
 <template >
-  <div class="col-sm-6 col-md-12">
-    <input type="text" class="form-control" v-model="author" placeholder="Autor">
-    <input type="text" class="form-control" v-model="title" placeholder="Tytuł">
-    <input type="text" class="form-control" v-model="description" value="product.name">
+  <div class="col-sm-6 col-md-12 marginTop">
+    <input type="text" class="form-control" v-model="bookEditor.author" placeholder="Autor">
+    <input type="text" class="form-control" v-model="bookEditor.title" placeholder="Tytuł">
+    <input
+      type="text"
+      class="form-control"
+      v-html="bookEditor.description"
+      v-model="bookEditor.description.innerHTML"
+      placeholder="Opis"
+    >
 
     <div class="contenteditableSec">
       <h2 class="h2 text-center">Opis książki</h2>
@@ -22,23 +28,29 @@
         </button>
       </ul>
 
-      <div contenteditable="true" class="contenteditable">Tekst</div>
+      <div
+        contenteditable="true"
+        class="contenteditable"
+        id="contenteditable"
+      >{{bookEditor.description}}</div>
     </div>
-    <button class="btn btn-success" @click=" editbook()">Dodaj</button>
-    <button class="btn btn-success" @click=" a()">as</button>
-
-    <li v-for="book in books" v-bind:key="book.id">
-      <span>Tu : {{book.title}}</span>
-    </li>
+    <button class="btn btn-success" @click="editBook(bookEditor)">Dodaj</button>
+    <button class="btn btn-success" @click="delteBook(bookEditor.id)">Kasuj</button>
+    <button @click="aa">cona</button>
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+import axios from "axios";
 export default {
   data() {
     return {
-      author: "",
-      title: "",
-      description: ""
+      bookEditor: {
+        author: this.$store.state.bookOne.author,
+        title: this.$store.state.bookOne.title,
+        description: this.$store.state.bookOne.description,
+        id: this.$store.state.bookOne.id
+      }
     };
   },
   computed: {},
@@ -46,40 +58,17 @@ export default {
   watch: {},
   mounted() {},
   methods: {
-    bold() {
-      document.execCommand("bold", false, null);
-    },
-    italic() {
-      document.execCommand("italic", false, null);
-    },
-    underline() {
-      document.execCommand("underline", false, null);
-    },
-    backspace() {
-      document.execCommand("delete", false, null);
-    },
-    editbook() {
-      axios
-        .put("api/addbook", {
-          title: this.title,
-          author: this.author,
-          description: this.description
-        })
-        .then(
-          res => {
-            this.title = "";
-            this.author = "";
-            this.description = "";
-            this.$router.push("/books");
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    },
-
-    a() {
-      console.log(this.books);
+    ...mapActions([
+      "editBook",
+      "bold",
+      "italic",
+      "underline",
+      "backspace",
+      "delteBook"
+    ]),
+    aa() {
+      var a = document.getElementById("contenteditable").innerHTML;
+      console.log(a);
     }
   }
 };
@@ -87,6 +76,9 @@ export default {
 
 
 <style scoped>
+.marginTop {
+  margin-top: 20px;
+}
 .form-control {
   box-shadow: 5px 5px 10px;
   margin-bottom: 4%;

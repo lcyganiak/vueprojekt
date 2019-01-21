@@ -50,7 +50,7 @@
 </template>
 <script>
 import axios from "axios";
-
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -82,18 +82,7 @@ export default {
       this.snackbar = false;
       this.$router.push("/books");
     },
-    bold() {
-      document.execCommand("bold", false, null);
-    },
-    italic() {
-      document.execCommand("italic", false, null);
-    },
-    underline() {
-      document.execCommand("underline", false, null);
-    },
-    backspace() {
-      document.execCommand("delete", false, null);
-    },
+    ...mapActions(["bold", "italic", "underline", "backspace"]),
     addbook() {
       axios
         .post("api/addbook", {

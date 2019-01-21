@@ -13,16 +13,17 @@ Vue.use(Vuetify, {
   iconfont: 'md',
   theme: {
     primary: "#01579B",
-    info: "#E8890C",
+
     danger: '#FF0000'
   }
 })
 
 /* eslint-disable no-new */
-new Vue({
+const vm = new Vue({
   el: '#app',
   router,
   store,
   components: { App },
   template: '<App/>'
 })
+export { vm }

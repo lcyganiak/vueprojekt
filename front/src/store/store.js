@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
+import router from "../router/index"
+
 
 Vue.use(Vuex)
 
@@ -25,33 +27,90 @@ export const store = new Vuex.Store({
     }
 
     ],
-    bookOne: []
+    bookOne: [],
+
   },
+
   actions: {
     books(context, payload) {
       axios.get("api/books").then(result => {
+
         this.payload = result.data;
         context.commit('booksGet');
+
       });
+
     },
     delteBook(context, payload) {
-      axios.delete(`api/book/${payload}`).then(res => {
+      axios.delete(`/api/book/${payload}`).then(res => {
 
-        store.dispatch("books");
+        router.push('/')
+
       });
 
-    }
+    },
+    editBook(context, payload) {
 
 
+      axios
+        .put(`/api/book/${payload.id}`, {
+          author: payload.author,
+          title: payload.title,
+          description: payload.description,
+
+        })
+        .then(res => {
+
+          router.push('/books')
+
+        })
+
+    },
+
+    bold() {
+      document.execCommand("bold", false, null);
+    },
+    italic() {
+      document.execCommand("italic", false, null);
+    },
+    underline() {
+      document.execCommand("underline", false, null);
+    },
+    backspace() {
+      document.execCommand("delete", false, null);
+    },
+    // getId(context, payload) {
+
+    //   this.thisID = payload
+
+    //   router.push(`/editbook/${this.thisID}`)
+    // },
+
+    getThisBook(context, payload) {
+
+      axios.get(`api/books/${payload}`)
+
+        .then(res => {
+          this.payload = res.data;
+          // console.log(res.data)
+          context.commit("oneBook");
+
+        })
+    },
   },
   mutations: {
     booksGet(state, payload) {
       state.books = this.payload;
-      console.log(state.books)
     },
     oneBook(state, payload) {
+      //  console.log(this.payload) wyświetla poprawnie
       state.bookOne = this.payload
-    }
+      // console.log(state.bookOne.id)
+      router.push(`/editbook/${state.bookOne.id}`)
+
+    },
+
+
   }
 })
 

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="cardBook">
     <v-card class="mt-5">
-      <v-layout wrap :class="`pa-3 ${book.typeBook}  cardBook` ">
+      <v-layout wrap :class="`pa-3 ${book.typeBook}` ">
         <v-flex xs12 sm6 md6>
           <div class="capition grey--text">Tytuł</div>
           <div class="title">{{book.title}}</div>
@@ -14,6 +14,7 @@
           <div class="capition grey--text">Opis</div>
           <div class="description">{{book.description}}</div>
           <v-btn color="warning" @click="delteBook(book.id)">kasuj</v-btn>
+          <v-btn color="info" @click="getThisBook(book.id)">Info</v-btn>
         </v-flex>
       </v-layout>
       <!-- <v-divider class="my-1"></v-divider> -->
@@ -21,7 +22,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import { mapActions } from "vuex";
 
 import AddBookVue from "./AddBook.vue";
@@ -31,40 +31,26 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["delteBook"]),
-    // deleteBook(id) {
-    //   axios.delete(`api/book/${id}`).then(res => {
-    //     this.$store.dispatch("books");
-    //   });
-    // },
-    detal(id) {
-      // axios.get(`api/books/${id}`).then(res => {
-      //   console.log(res);
-      //   this.bookone = res.data;
-      //   console.log(this.bookone.title);
-      //   this.$router.push("/editbook");
-      //   return bookone;
-      // });
-    }
+    ...mapActions(["delteBook", "getThisBook"])
   }
 };
 </script>
 <style  scoped>
 .cardBook {
-  box-shadow: 5px 5px 10px;
+  min-width: 100%;
 }
 
 .sciFi {
   border-left: 4px solid grey;
 }
 .educational {
-  border-left: 4px solid red;
+  border-left: 4px solid burlywood;
 }
 .childrenNovel {
-  border-left: 4px solid grey;
+  border-left: 4px solid yellowgreen;
 }
 .historyk {
-  border-left: 4px solid grey;
+  border-left: 4px solid rebeccapurple;
 }
 </style>
 
