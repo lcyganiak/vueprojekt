@@ -1,18 +1,30 @@
 <template>
   <div class="col-sm-6 col-md-12 addBook">
-    <input type="text" class="form-control" v-model="author" placeholder="Autor">
-    <input type="text" class="form-control" v-model="title" placeholder="Tytuł">
-    <input type="text" class="form-control" v-model="description" placeholder="Opis">
-    <legend>Rodzaj Ksiązki</legend>
-    <select class="form-control form-control-lg" v-model="typeBook">
-      <option
-        v-for="valType in valueTypeBook"
-        v-bind:key="valType.valueType "
-        :value="valType.valueType"
-      >{{valType.descriptionType}}</option>
-    </select>
+    <v-form ref="form" lazy-validation>
+      <v-text-field v-model="title" label="Tytuł" required></v-text-field>
+      <v-text-field v-model="author" label="Autor" required></v-text-field>
+      <v-text-field v-model="description" :counter="1000" label="Opis" required></v-text-field>
+      <v-layout wrap align-center>
+        <v-flex xs12 sm12 d-flex>
+          <v-select :items="valueTypeBook" v-model="typeBook" label="Gatunek Ksiązki"></v-select>
+        </v-flex>
+      </v-layout>
+    </v-form>
 
-    <div class="contenteditableSec">
+    <div class="text-xs-center">
+      <v-rating v-model="rating"></v-rating>
+    </div>
+
+    <button class="btn btn-success" @click=" addbook()">Dodaj</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- <div class="contenteditableSec">
       <h2 class="h2 text-center">Opis książki</h2>
       <ul style="list-style-type: none">
         <button class="btn btn-primary bold" @click="bold()">
@@ -31,8 +43,7 @@
       </ul>
 
       <div contenteditable="true" class="contenteditable">Tekst</div>
-    </div>
-    <button class="btn btn-success" @click=" addbook()">Dodaj</button>
+    </div>-->
     <v-snackbar
       v-model="snackbar"
       :bottom="y === 'bottom'"
@@ -58,12 +69,8 @@ export default {
       title: "",
       description: "",
       typeBook: "",
-      valueTypeBook: [
-        { descriptionType: "Powieści Historyczna", valueType: "historyk" },
-        { descriptionType: "Powieści Sci-Fi", valueType: "sciFi" },
-        { descriptionType: "Edukacyjna", valueType: "educational" },
-        { descriptionType: "Powieści dla Dzieci", valueType: "childrenNovel" }
-      ],
+      rating: 0,
+      valueTypeBook: ["historyczna", "sci-fi", "edukacyjna"],
       snackbar: false,
       y: "top",
       x: null,
@@ -84,11 +91,13 @@ export default {
     },
     ...mapActions(["bold", "italic", "underline", "backspace"]),
     addbook() {
+      console.log(this.typeBook);
       axios
         .post("api/addbook", {
           title: this.title,
           author: this.author,
           description: this.description,
+          rating: this.rating,
           typeBook: this.typeBook
         })
         .then(
@@ -96,7 +105,7 @@ export default {
             this.title = "";
             this.author = "";
             this.description = "";
-            this.description = "";
+            this.rating = 0;
 
             this.snackbar = true;
           },

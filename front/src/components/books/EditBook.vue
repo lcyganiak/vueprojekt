@@ -2,13 +2,7 @@
   <div class="col-sm-6 col-md-12 marginTop">
     <input type="text" class="form-control" v-model="bookEditor.author" placeholder="Autor">
     <input type="text" class="form-control" v-model="bookEditor.title" placeholder="Tytuł">
-    <input
-      type="text"
-      class="form-control"
-      v-html="bookEditor.description"
-      v-model="bookEditor.description.innerHTML"
-      placeholder="Opis"
-    >
+    <input type="text" class="form-control" v-model="bookEditor.description" placeholder="Opis">
 
     <div class="contenteditableSec">
       <h2 class="h2 text-center">Opis książki</h2>
@@ -32,11 +26,13 @@
         contenteditable="true"
         class="contenteditable"
         id="contenteditable"
-      >{{bookEditor.description}}</div>
+        v-html="bookEditor.description"
+        @input="update"
+      ></div>
     </div>
     <button class="btn btn-success" @click="editBook(bookEditor)">Dodaj</button>
     <button class="btn btn-success" @click="delteBook(bookEditor.id)">Kasuj</button>
-    <button @click="aa">cona</button>
+    <button>cona</button>
   </div>
 </template>
 <script>
@@ -47,8 +43,9 @@ export default {
     return {
       bookEditor: {
         author: this.$store.state.bookOne.author,
-        title: this.$store.state.bookOne.title,
         description: this.$store.state.bookOne.description,
+        title: this.$store.state.bookOne.title,
+        contenteditable: "",
         id: this.$store.state.bookOne.id
       }
     };
@@ -56,7 +53,7 @@ export default {
   computed: {},
 
   watch: {},
-  mounted() {},
+
   methods: {
     ...mapActions([
       "editBook",
@@ -66,9 +63,9 @@ export default {
       "backspace",
       "delteBook"
     ]),
-    aa() {
-      var a = document.getElementById("contenteditable").innerHTML;
-      console.log(a);
+
+    update: function(event) {
+      console.log(event.target.innerHTML);
     }
   }
 };

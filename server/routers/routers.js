@@ -16,6 +16,7 @@ router.get('/books', (req, res) => {
 
 // Add book
 router.post('/addbook', (req, res) => {
+
   if (!req.body.title) {
     res.status(400);
     res.json({
@@ -23,7 +24,9 @@ router.post('/addbook', (req, res) => {
     });
   } else {
     Book.create(req.body)
+
       .then(() => {
+
         res.send('Book Add');
       })
       .catch(err => {
@@ -56,7 +59,7 @@ router.put('/book/:id', (req, res) => {
     });
   } else {
     Book.update(
-      { author: req.body.author, title: req.body.title, description: req.body.description },
+      { author: req.body.author, title: req.body.title, description: req.body.description, rating: req.body.rating },
       { where: { id: req.params.id } }
     )
       .then(() => {

@@ -23,4 +23,9 @@ module.exports = db.sequelize.define('tblvues', {
     unique: true,
     allowNull: false
   },
+  rating: {
+    type: Sequelize.INTEGER,
+    unique: true,
+    allowNull: false
+  },
 });

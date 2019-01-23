@@ -51,9 +51,11 @@ export const store = new Vuex.Store({
     },
     editBook(context, payload) {
 
-
+      console.log("opis  " + payload.description)
+      console.log("opis caontent  " + payload.contenteditable)
       axios
         .put(`/api/book/${payload.id}`, {
+
           author: payload.author,
           title: payload.title,
           description: payload.description,
@@ -66,6 +68,7 @@ export const store = new Vuex.Store({
         })
 
     },
+
 
     bold() {
       document.execCommand("bold", false, null);
