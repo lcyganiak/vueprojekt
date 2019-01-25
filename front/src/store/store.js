@@ -28,7 +28,8 @@ export const store = new Vuex.Store({
 
     ],
     bookOne: [],
-
+    dialog: true,
+    snackbar: false,
   },
 
   actions: {
@@ -44,28 +45,68 @@ export const store = new Vuex.Store({
     delteBook(context, payload) {
       axios.delete(`/api/book/${payload}`).then(res => {
 
-        router.push('/')
+        router.push('/books')
 
       });
 
     },
-    editBook(context, payload) {
+    dialogMes() {
+      this.dialog = false
+    },
 
-      console.log("opis  " + payload.description)
-      console.log("opis caontent  " + payload.contenteditable)
+    editBook(context, payload) {
+      console.log(payload.title)
+
       axios
         .put(`/api/book/${payload.id}`, {
 
           author: payload.author,
           title: payload.title,
           description: payload.description,
+          rating: payload.rating
 
         })
-        .then(res => {
 
+        .then(res => {
+          console.log("koniec")
           router.push('/books')
 
         })
+
+    },
+    addbook(context, payload) {
+
+      axios
+        .post("/api/addbook", {
+          title: payload.title,
+          author: payload.author,
+          description: payload.description,
+          rating: payload.rating,
+          typeBook: payload.typeBook,
+
+        })
+        .then(
+          res => {
+
+
+            payload.title = '';
+            payload.author = "";
+            payload.description = "";
+            payload.typeBook = ""
+            payload.rating = 0;
+            payload.snackbar = true;
+            context.commit('dialog')
+
+
+
+            router.push('/books')
+          },
+
+          err => {
+            console.log(err);
+          }
+        );
+
 
     },
 
@@ -82,20 +123,12 @@ export const store = new Vuex.Store({
     backspace() {
       document.execCommand("delete", false, null);
     },
-    // getId(context, payload) {
-
-    //   this.thisID = payload
-
-    //   router.push(`/editbook/${this.thisID}`)
-    // },
-
     getThisBook(context, payload) {
 
       axios.get(`api/books/${payload}`)
 
         .then(res => {
           this.payload = res.data;
-          // console.log(res.data)
           context.commit("oneBook");
 
         })
@@ -105,6 +138,13 @@ export const store = new Vuex.Store({
     booksGet(state, payload) {
       state.books = this.payload;
     },
+    dialog(state) {
+      console.log(state.dialog)
+      state.dialog = false
+      console.log(state.dialog)
+
+    },
+
     oneBook(state, payload) {
       //  console.log(this.payload) wyświetla poprawnie
       state.bookOne = this.payload

@@ -10,7 +10,9 @@ import Book from "./Book.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      dialog: this.$store.state.dialog
+    };
   },
   computed: {
     books() {

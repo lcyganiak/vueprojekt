@@ -1,17 +1,13 @@
 <template>
-  <div class="container">
-    <h1>Home</h1>
-  </div>
+  <h1>home</h1>
 </template>
 
 <script>
+import AddBook from "./books/AddBook";
 export default {
   name: "HelloWorld",
   data() {
-    return {
-      msg: "Welcome to Your Vue.js App",
-      items: ["Foo", "Bar", "Fizz", "Buzz"]
-    };
+    return {};
   }
 };
 </script>

@@ -6,7 +6,10 @@
         <span class="font-weigh-light">Biblioteka</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
+      <v-btn flat small color="gray" @click="dialogs">
+        <span>Dodaj</span>
+        <v-icon>add</v-icon>
+      </v-btn>
       <v-btn flat color="gray" @click="goHome">
         <span>HOME</span>
 
@@ -24,24 +27,61 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+    <v-dialog v-model="dialog" max-width="500">
+      <v-card>
+        <add-book></add-book>
+      </v-card>
+    </v-dialog>
   </nav>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import AddBook from "./books/AddBook";
 export default {
   data() {
     return {
       drawer: false,
+
       links: [
         { path: "/books", name: "Books", icon: "folder_open" },
         { path: "/addbook", name: "AddBook", icon: "fas fa-edit" }
-      ]
+      ],
+      dialog: false
     };
   },
+  beforeViewInit() {},
   methods: {
+    ...mapActions(["dialogMes"]),
     goHome() {
       this.$router.push("/");
+    },
+    dialogs() {
+      this.dialog = true;
     }
+  },
+
+  computed: {
+    // dialogMes: function() {
+    //   this.dialog = "sssss";
+    // }
+  },
+
+  watch: {
+    dialogMes() {
+      this.dialog = false;
+      if (this.$store.state.dialog == false) {
+        console.log(this.dialog);
+      } else {
+        // console.log(this.dialog);
+        //this.dialog = this.$store.state.dialog;
+        console.log(this.dialog);
+      }
+    }
+  },
+
+  components: {
+    addBook: AddBook
   }
 };
 </script>

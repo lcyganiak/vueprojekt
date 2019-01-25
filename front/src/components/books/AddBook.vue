@@ -1,29 +1,24 @@
 <template>
   <div class="col-sm-6 col-md-12 addBook">
     <v-form ref="form" lazy-validation>
-      <v-text-field v-model="title" label="Tytuł" required></v-text-field>
-      <v-text-field v-model="author" label="Autor" required></v-text-field>
-      <v-text-field v-model="description" :counter="1000" label="Opis" required></v-text-field>
+      <v-text-field v-model="bookAdd.title" label="Tytuł" required></v-text-field>
+      <v-text-field v-model="bookAdd.author" label="Autor" required></v-text-field>
+      <v-text-field v-model="bookAdd.description" :counter="1000" label="Opis" required></v-text-field>
+
       <v-layout wrap align-center>
         <v-flex xs12 sm12 d-flex>
-          <v-select :items="valueTypeBook" v-model="typeBook" label="Gatunek Ksiązki"></v-select>
+          <v-select :items="valueTypeBook" v-model="bookAdd.typeBook" label="Gatunek Ksiązki"></v-select>
         </v-flex>
+        <div></div>
       </v-layout>
     </v-form>
 
     <div class="text-xs-center">
-      <v-rating v-model="rating"></v-rating>
+      <v-rating v-model="bookAdd.rating"></v-rating>
     </div>
 
-    <button class="btn btn-success" @click=" addbook()">Dodaj</button>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <button class="btn btn-success" @click=" addbook(bookAdd)">Dodaj</button>
+
     <!-- <div class="contenteditableSec">
       <h2 class="h2 text-center">Opis książki</h2>
       <ul style="list-style-type: none">
@@ -65,11 +60,20 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      author: "",
-      title: "",
-      description: "",
-      typeBook: "",
-      rating: 0,
+      bookAdd: {
+        author: this.author,
+        description: this.description,
+        title: this.title,
+        rating: this.rating,
+        snackbar: false,
+        typeBook: this.typeBook,
+        dialog: true
+      },
+      // author: "",
+      // title: "",
+      // description: "",
+      // typeBook: "",
+      // rating: 0,
       valueTypeBook: ["historyczna", "sci-fi", "edukacyjna"],
       snackbar: false,
       y: "top",
@@ -89,31 +93,7 @@ export default {
       this.snackbar = false;
       this.$router.push("/books");
     },
-    ...mapActions(["bold", "italic", "underline", "backspace"]),
-    addbook() {
-      console.log(this.typeBook);
-      axios
-        .post("api/addbook", {
-          title: this.title,
-          author: this.author,
-          description: this.description,
-          rating: this.rating,
-          typeBook: this.typeBook
-        })
-        .then(
-          res => {
-            this.title = "";
-            this.author = "";
-            this.description = "";
-            this.rating = 0;
-
-            this.snackbar = true;
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    },
+    ...mapActions(["bold", "italic", "underline", "backspace", "addbook"]),
 
     contenteditable() {}
   }
