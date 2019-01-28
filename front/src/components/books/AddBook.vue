@@ -1,44 +1,120 @@
 <template>
-  <div class="col-sm-6 col-md-12 addBook">
+  <div>
     <v-form ref="form" lazy-validation>
-      <v-text-field v-model="bookAdd.title" label="Tytuł" required></v-text-field>
-      <v-text-field v-model="bookAdd.author" label="Autor" required></v-text-field>
-      <v-text-field v-model="bookAdd.description" :counter="1000" label="Opis" required></v-text-field>
-
-      <v-layout wrap align-center>
-        <v-flex xs12 sm12 d-flex>
-          <v-select :items="valueTypeBook" v-model="bookAdd.typeBook" label="Gatunek Ksiązki"></v-select>
-        </v-flex>
-        <div></div>
-      </v-layout>
+      <v-text-field v-model="bookAdd.title" label="Tytuł" required style="display: none"></v-text-field>
+      <v-text-field v-model="bookAdd.author" label="Autor" required style="display: none"></v-text-field>
+      <v-text-field v-model="bookAdd.description" label="Opis" required style="display: none"></v-text-field>
     </v-form>
+    <v-container>
+      <v-layout row wrap justify-space-around>
+        <v-flex xs12 sm5>
+          <!--             add author start                                 -->
+          <v-card>
+            <v-card-text class="pt-4 mb-2 hightCard" @input="handleAuthor($event)">
+              <div class="font-weight-light grey--text title mb-2">Autor:</div>
+              <div
+                contenteditable="true"
+                class="title font-weight-light orange--text mb-2"
+                style="word-wrap: break-word"
+              >{{contenteditableAuthor}}</div>
+            </v-card-text>
+            <v-btn small color="primary" class="white--text" fab @click="bold()">
+              <i class="fas fa-bold"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="italic()">
+              <i class="fas fa-italic"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="underline()">
+              <i class="fas fa-underline"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="backspace()">
+              <i class="fas fa-backspace"></i>
+            </v-btn>
+          </v-card>
+        </v-flex>
 
-    <div class="text-xs-center">
-      <v-rating v-model="bookAdd.rating"></v-rating>
-    </div>
+        <!--             edit author end                                 -->
+        <!--             edit title start                                 -->
+        <v-flex xs12 sm6>
+          <v-card>
+            <v-card-text class="pt-4 mb-2 hightCard" @input="handleTitle($event)">
+              <div class="font-weight-light grey--text title mb-2">Tytuł Ksiązki</div>
+              <div
+                contenteditable="true"
+                class="title font-weight-light orange--text mb-2"
+                style="word-wrap: break-word"
+              >Tytuł Ksiązki</div>
+            </v-card-text>
+            <v-btn small color="primary" class="white--text" fab @click="bold()">
+              <i class="fas fa-bold"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="italic()">
+              <i class="fas fa-italic"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="underline()">
+              <i class="fas fa-underline"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="backspace()">
+              <i class="fas fa-backspace"></i>
+            </v-btn>
+          </v-card>
+        </v-flex>
+        <!--             edit title end                                 -->
+        <!--             edit description start
+        -->
+      </v-layout>
 
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-card>
+            <v-card-text small class="pt-4 mb-2 descriptionText" @input="handleDescription($event)">
+              <div class="font-weight-light grey--text title mb-2">Opis</div>
+              <div
+                contenteditable="true"
+                class="title font-weight-light orange--text mb-2"
+                style="word-wrap: break-word font-size: 12px"
+              >Opis Ksiązki</div>
+            </v-card-text>
+            <v-btn small color="primary" class="white--text" fab @click="bold()">
+              <i class="fas fa-bold"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="italic()">
+              <i class="fas fa-italic"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="underline()">
+              <i class="fas fa-underline"></i>
+            </v-btn>
+            <v-btn small color="primary" class="white--text" fab @click="backspace()">
+              <i class="fas fa-backspace"></i>
+            </v-btn>
+          </v-card>
+        </v-flex>
+      </v-layout>
+      <!--             edit description end                                 -->
+      <v-container>
+        <v-layout row wrap justify-space-around>
+          <v-flex xs12 sm4>
+            <v-card>
+              <v-card-text small class="pt-4 mb-2">
+                <div class="font-weight-light grey--text title mb-2">Ocena Ksiązki</div>
+                <v-rating v-model="bookAdd.rating "></v-rating>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-flex xs12 sm4>
+            <v-card>
+              <v-card-text small class="pt-4 mb-2">
+                <div class="font-weight-light grey--text title mb-2">Gatunek ksiązki</div>
+                <v-select :items="valueTypeBook" v-model="bookAdd.typeBook"></v-select>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <div class="text-xs-center"></div>
+    </v-container>
     <button class="btn btn-success" @click=" addbook(bookAdd)">Dodaj</button>
 
-    <!-- <div class="contenteditableSec">
-      <h2 class="h2 text-center">Opis książki</h2>
-      <ul style="list-style-type: none">
-        <button class="btn btn-primary bold" @click="bold()">
-          <i class="fas fa-bold"></i>
-        </button>
-        <button class="btn btn-primary italic" @click="italic()">
-          <i class="fas fa-italic"></i>
-        </button>
-        <button class="btn btn-primary" @click="underline()">
-          <i class="fas fa-underline"></i>
-        </button>
-
-        <button class="btn btn-primary" @click="backspace()">
-          <i class="fas fa-backspace"></i>
-        </button>
-      </ul>
-
-      <div contenteditable="true" class="contenteditable">Tekst</div>
-    </div>-->
     <v-snackbar
       v-model="snackbar"
       :bottom="y === 'bottom'"
@@ -61,19 +137,16 @@ export default {
   data() {
     return {
       bookAdd: {
-        author: this.author,
-        description: this.description,
-        title: this.title,
+        author: "Autor Ksiązki",
+        description: "Opis Ksiązki",
+        title: "Tytuł Ksiązki",
         rating: this.rating,
         snackbar: false,
         typeBook: this.typeBook,
         dialog: true
       },
-      // author: "",
-      // title: "",
-      // description: "",
-      // typeBook: "",
-      // rating: 0,
+      contenteditableAuthor: "Autor Ksiązki",
+
       valueTypeBook: ["historyczna", "sci-fi", "edukacyjna"],
       snackbar: false,
       y: "top",
@@ -85,25 +158,33 @@ export default {
   },
 
   watch: {},
-  mounted() {
-    this.contenteditable();
-  },
+  mounted() {},
   methods: {
     snackbarMetod() {
       this.snackbar = false;
       this.$router.push("/books");
     },
     ...mapActions(["bold", "italic", "underline", "backspace", "addbook"]),
-
-    contenteditable() {}
+    handleAuthor(e) {
+      this.bookAdd.author = e.target.innerHTML;
+    },
+    handleDescription(e) {
+      this.bookAdd.description = e.target.innerHTML;
+    },
+    handleTitle(e) {
+      this.bookAdd.title = e.target.innerHTML;
+    }
   }
 };
 </script>
 
 
 <style scoped>
-.addBook {
-  margin-top: 30px;
+.hightCard {
+  min-height: 150px;
+}
+.descriptionText {
+  min-height: 300px;
 }
 .form-control {
   box-shadow: 5px 5px 10px;
